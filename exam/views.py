@@ -5,6 +5,8 @@ from .forms import CreateUserForm, StudentForm, UserAuthentication, ExamForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .decorators import allowed_users
+from django.contrib import messages
+
 import random
 
 
@@ -20,14 +22,23 @@ def register(request):
         student_form = StudentForm(request.POST)
      
         if user_form.is_valid() and student_form.is_valid():
-            print(True)
-            college = student_form.cleaned_data["college"]
-            roll_no = student_form.cleaned_data.get("roll_no")
-            user = user_form.save(commit=False)
-            user.college = college
-            user.roll_no = roll_no
-            user.save()
-            return redirect('signin')
+            try:
+                username = user_form.cleaned_data['username']
+                college = student_form.cleaned_data["college"]
+                roll_no = student_form.cleaned_data.get("roll_no")
+                user = user_form.save(commit=False)
+                user.college = college
+                user.roll_no = roll_no
+                user.save()
+                messages.success(request, f"{username} created successfully")
+                return redirect('signin')
+            except Exception as e:
+                messages.warning(request, "Please Enter Valid/Unique(username, email)/Strong Data")
+
+           
+        else:
+            messages.warning(request, "Please Enter Valid/Unique(username, email)/Strong Data")
+
     context ={'user_form':user_form,'student_form':student_form}
     return render(request, 'exam/register.html', context)
 

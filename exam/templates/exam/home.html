@@ -4,9 +4,9 @@
 <div class="jumbotron text-center">
     <h1 class="display-4">Welcome {{request.user}}</h1>
     <hr class="my-4">
-    <p>Email :{{ request.user }}</p>
-    <p>College :{{ request.user }}</p>
-    <p>Roll No. :{{ request.user }}</p>
+    <p>Email :{{ request.user.email }}</p>
+    <p>College :{{ request.user.student.college }}</p>
+    <p>Roll No. :{{ request.user.student.roll_no }}</p>
     <p><b>Instruction</b></p>
     <p>1- Time Duration will be 60 minutes</p>
     <p>2- During Exam, Select one answer and click on "Submit Ans" to record answer and then click Next</p>

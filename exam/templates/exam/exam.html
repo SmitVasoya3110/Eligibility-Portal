@@ -36,10 +36,10 @@
   >
     <ul class="navbar-nav text-center">
       <li class="nav-item mx-3 custom">Name: {{request.user}}</li>
-      <li class="nav-item mx-3 custom">Email: {{request.user}}</li>
-      <li class="nav-item mx-3 custom">College: {{request.user}}</li>
-      <li class="nav-item mx-3 custom">Roll no.: {{request.user}}</li>
-      <li class="nav-item mx-3 custom">Timer <span id="timer"></span></li>
+      <li class="nav-item mx-3 custom">Email: {{request.use.email}}</li>
+      <li class="nav-item mx-3 custom">College: {{request.user.student.college}}</li>
+      <li class="nav-item mx-3 custom">Roll no.: {{request.user.roll_no}}</li>
+      <!-- <li class="nav-item mx-3 custom">Timer <span id="timer"></span></li> -->
     </ul>
   </div>
 </nav>
