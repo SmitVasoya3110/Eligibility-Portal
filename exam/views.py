@@ -27,7 +27,6 @@ def register(request):
             user.college = college
             user.roll_no = roll_no
             user.save()
-            print("0before")
             return redirect('signin')
     context ={'user_form':user_form,'student_form':student_form}
     return render(request, 'exam/register.html', context)
