@@ -1,0 +1,26 @@
+{% extends "adminapp/main.html" %}
+
+
+
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-5  shadow-lg bg-white rounded">
+
+                <form action="{% url 'addoption' exam_id%}" method="post" class="form-group text-center">
+                    {% csrf_token %}
+                    {% for field in option_form.visible_fields %}
+                    <div class="form-group">
+                        {{ field.label_tag }}:
+                        {{ field }}
+                      </div>
+                    {% endfor %}
+                  
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock  %}
+    

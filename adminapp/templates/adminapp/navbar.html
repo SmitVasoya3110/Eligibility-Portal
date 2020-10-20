@@ -1,0 +1,36 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Eligility Portal
+    <div class="text-muted"><small>Custom Dashboard</small></div>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      {% comment %} {% if request.user.is_staff %} {% endcomment %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminhome' %}">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'all-students-data' %}">Students</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'exam' %}">Exam</a>
+      </li>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminuser' %}">Admin</a>
+      </li>
+    </ul>
+  </div>
+
+    <style>
+      #user-mg, #link-nav{
+        color:#fff;
+        margin-right: 3px;
+      }
+    </style>
+  <span id="user-mg">Hello,{{request.user}}</span>
+  <span><a href="{% url 'logoutadmin' %}" class="nav-link link-nav">Logout</a></span>
+</nav>

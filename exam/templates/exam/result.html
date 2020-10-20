@@ -1,0 +1,39 @@
+{% extends 'exam/base.html' %}
+
+{% block style %}
+<style>
+
+    .green{
+        background-color:rgba(90, 218, 90, 0.753) !important;
+        
+    }
+    .red{
+        background-color: rgba(238, 57, 57, 0.877) !important;
+    }
+</style>
+{% endblock %}
+
+
+{% block result %}
+  
+
+  
+{% if score > 60 %}
+<div class="jumbotron green">
+    <h1 class="display-4">{{ request.user }}</h1>
+    <p class="lead">You have successfully passed the exam with score of <b>{{ score }}</b></p>
+    <hr class="my-4">
+    <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Log Out</a>
+</div>
+    
+{% else %}
+<div class="jumbotron red">
+    <h1 class="display-4">{{ request.user }}</h1>
+    <p class="lead">You failed in this exam with score of <b>{{ score }}</b></p>
+    <hr class="my-4">
+    
+    <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Log Out</a>
+</div>
+
+{% endif %}
+{% endblock %}

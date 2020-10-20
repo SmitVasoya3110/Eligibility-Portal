@@ -1,0 +1,42 @@
+{% extends "adminapp/main.html" %}
+
+
+{% block style %}
+  <style>
+      #id_question{
+          max-width:280px;
+      }
+  </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-5  shadow-lg bg-white rounded">
+
+                <form action=" " method="post" class="form-group text-center">
+                    {% csrf_token %}
+                    {% for field in question_form.visible_fields %}
+                    <div class="form-group">
+                        {{ field.label_tag }}:
+                        {{ field }}
+                      </div>
+                    {% endfor %}
+                    <hr>
+                    {% for option in  option_form.visible_fields%}
+                    
+                    <div class="form-group">
+
+                        {{option.label_tag}}
+                        {{option}}
+                    </div>
+                    
+                    {% endfor %}
+                  
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock  %}
+    

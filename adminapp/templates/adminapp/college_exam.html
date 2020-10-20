@@ -1,0 +1,47 @@
+{% extends 'adminapp/main.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="colleges col-md-10 my-4 offset-md-1 shadow-lg bg-white rounded align-middle"><h3 class="head text-center text-muted align-middle">Exam</h3></div>
+    <table class="table table-striped">
+        <thead>
+
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Exam</th>
+            <th scope="col">College</th>
+            <th>View</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+            
+            {% if exam_list %}
+            {% for exam in exam_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{exam.exam_name}}</td>
+                    
+                    <td>{{exam.college}}</td>
+                    <td><a href="{% url 'exam-info' exam.id%}" class="btn btn-sm btn-outline-dark">View</a></td>
+                    
+                </tr>
+            {% endfor %}
+                
+            {% else %}
+            <tr>
+                <th scope="row">#</th>
+                <td>#</td>
+                <td>#</td>
+                <td>#</td>
+                <td>#</td>
+            </tr>
+            {% endif %}
+
+
+                
+        </tbody>
+      </table>
+  </div>
+
+{% endblock  %}

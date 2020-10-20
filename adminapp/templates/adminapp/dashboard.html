@@ -1,0 +1,66 @@
+{%  extends 'adminapp/main.html' %}
+
+{% block content %}
+
+{%  include 'adminapp/status.html' %}
+{% block style %}
+<style>
+	#img{
+		height: 47px;
+		width: 47px;
+	}
+	.hover{
+		min-height: 4em;
+		text-decoration: none;
+		outline: none;
+		text-align: center;
+		align-items: center;
+		color:black;
+	}
+	.hover:hover{
+		text-decoration: none;
+		background-color: black !important;
+		color: white !important;
+	}
+	.hover a:hover{
+		color: white;
+		text-decoration: none;
+	}
+	.hover a{
+		text-decoration: none;
+	}
+	.colleges{
+		min-height: 2.5em;
+	}
+	.head{
+		line-height: 2.5em;
+	}
+	
+</style>
+{% endblock %}
+<br>
+<hr class="my-5">
+<div class="colleges col-md-10 offset-md-1 shadow-lg bg-white rounded align-middle"><h3 class="head text-center text-muted align-middle">Colleges<span class="mx-3"><a href="{% url 'addcollege' %}" class="btn btn-success">Add College</a></span></h3></div>
+<div class="container">
+	<div class="row mt-3">
+	{% for college in college_list %}
+		
+		
+	<!-- <div class="hover col-md-5 offset-md-1 mt-2 shadow-lg p-3 bg-white rounded"> -->
+
+		<a href="{% url 'college-student' college.id %}" class="btn btn-primary hover col-md-5 offset-md-1 mt-2 shadow-lg p-3 bg-white rounded">	
+			<div>{{college}} </div>
+				
+		</a>
+	<!-- </div> -->
+		
+	
+	{% endfor %}
+	
+	</div>
+</div>
+<br>
+<hr class="my-4 bold">
+
+{% endblock %}
+

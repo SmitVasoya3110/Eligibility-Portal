@@ -1,0 +1,16 @@
+{% extends 'adminapp/main.html' %}
+
+
+{% block content %}
+<div class="conteiner text-center align-middle my-5">
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for form in admin_form %}
+        {{form.label}}:{{form}}<br>
+        {% endfor %}
+        <button type="submit" class="btn btn-info">Create Admin</button>
+    </form>
+</div>
+  
+{% endblock  %}

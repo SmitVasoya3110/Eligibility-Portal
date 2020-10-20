@@ -1,0 +1,92 @@
+{% extends 'exam/base.html' %} {% block style %}
+<style>
+  .flexing {
+    display: flex !important;
+    justify-content: center !important;
+    flex-wrap: wrap;
+  }
+  .flexing ul {
+    display: flex;
+  }
+  .nav {
+    height: 5rem;
+  }
+  .custom {
+    font-size: 1.5rem;
+  }
+</style>
+{% endblock %} {% block exam %}
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light nav text-center justify"
+>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div
+    class="collapse navbar-collapse text-center flexing"
+    id="navbarNavDropdown"
+  >
+    <ul class="navbar-nav text-center">
+      <li class="nav-item mx-3 custom">Name: {{request.user}}</li>
+      <li class="nav-item mx-3 custom">Email: {{request.user}}</li>
+      <li class="nav-item mx-3 custom">College: {{request.user}}</li>
+      <li class="nav-item mx-3 custom">Roll no.: {{request.user}}</li>
+      <li class="nav-item mx-3 custom">Timer <span id="timer"></span></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 col-md-8 border border-success p-4 m-4 mx-auto">
+      {% if questions %}
+
+      <form action="{% url 'result' %}" method="POST">
+        {% csrf_token %} {% for question in questions_page %}<br /><br />
+        <h5>Q-{{ question.question_text }}</h5>
+        <br />
+        {% for option in option_list %}
+        {% if option.question.id == question.id %}
+        <input
+          type="radio"
+          name="ans{{question.id}}"
+          value="A"
+        />{{option.option_text1}}<br />
+        <input
+          type="radio"
+          name="ans{{question.id}}"
+          value="B"
+        />{{option.option_text2}}<br />
+        <input
+          type="radio"
+          name="ans{{question.id}}"
+          value="C"
+        />{{option.option_text3}}<br />
+        <input
+          type="radio"
+          name="ans{{question.id}}"
+          value="D"
+        />{{option.option_text4}}<br />
+        {% endif %}{% endfor %}
+        {% endfor %}<br />
+        <button type="submit" class="btn btn-primary form-control">
+          Submit Quiz
+        </button>
+      </form>
+
+      
+      {% else %}
+      <h3>No Qustions</h3>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

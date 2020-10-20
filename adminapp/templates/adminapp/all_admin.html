@@ -1,0 +1,49 @@
+{% extends "adminapp/main.html" %}
+
+
+{% block content %}
+<div class="container">
+    <div class="colleges col-md-10 my-4 offset-md-1 shadow-lg bg-white rounded align-middle"><h3 class="head text-center text-muted align-middle">Admins<span class="mx-3"><a href="{% url 'addadmin' %}" class="btn btn-success">Add Admin</a></span></h3></div>
+    <table class="table table-striped">
+        <thead>
+
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Is SuperUser</th>
+            <th scope="col">Is Staff</th>
+            <th></th>
+            
+          </tr>
+        </thead>
+        <tbody>
+            
+            {% if admin_users %}
+            {% for admin in admin_users %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{admin.username}}</td>
+                    <td>{{admin.email}}</td>
+                    <td>{{admin.is_superuser}}</td>
+                    <td>{{admin.is_staff}}</td>
+
+                </tr>
+            {% endfor %}
+                
+            {% else %}
+            <tr>
+                <th scope="row">#</th>
+                <td>#</td>
+                <td>#</td>
+                <td>#</td>
+                <td>#</td>
+            </tr>
+            {% endif %}
+
+
+                
+        </tbody>
+      </table>
+  </div>
+{% endblock %}

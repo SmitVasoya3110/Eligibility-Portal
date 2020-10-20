@@ -1,0 +1,15 @@
+{% extends 'exam/base.html' %}
+{% block exam %}
+
+<div class="jumbotron text-center">
+    <h1 class="display-4">Welcome {{request.user}}</h1>
+    <hr class="my-4">
+    <p>Email :{{ request.user }}</p>
+    <p>College :{{ request.user }}</p>
+    <p>Roll No. :{{ request.user }}</p>
+    <p><b>Instruction</b></p>
+    <p>1- Time Duration will be 60 minutes</p>
+    <p>2- During Exam, Select one answer and click on "Submit Ans" to record answer and then click Next</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'startexam' %}"  role="button">Start Exam</a>
+  </div>
+{% endblock %}
