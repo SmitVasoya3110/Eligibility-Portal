@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #installed
     'exam',
     'adminapp',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 ROOT_URLCONF = 'student_exam_project.urls'
 
