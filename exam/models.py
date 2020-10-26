@@ -20,8 +20,13 @@ class Exam(models.Model):
 
 
 class Question(models.Model):
+    CATEGORY = (
+        ('Aptitude', 'Aptitude'),
+        ('Programming', 'Programming')
+    )
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='exam')
     question_text = models.TextField()
+    category = models.CharField(max_length=30, choices=CATEGORY, default="None")
     answer = models.CharField(max_length=1, null=True, blank=True)
 
     def __str__(self):
