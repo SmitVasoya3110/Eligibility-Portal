@@ -12,6 +12,7 @@ import random
 
 # Create your views here.
 global question_list
+global answer_list
 
 
 def register(request):
@@ -76,6 +77,8 @@ def selectExam(request):
 @allowed_users(allowed_roles=['student'])
 def home(request, exam_id):
     question = Question.objects.filter(exam=exam_id)
+    global answer_list
+    answer_list = []
     global question_list
     question_list = list(question)
     random.shuffle(question_list)
@@ -115,3 +118,10 @@ def result(request):
         
         return render(request, 'exam/result.html',{'score':score})
     return render(request, 'exam/result.html')
+
+@login_required
+def saveans(request):
+    global answer_list
+    ans = request.GET['ans']
+    answer_list.append(ans)
+    print(answer_list)

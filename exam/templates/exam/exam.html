@@ -45,9 +45,7 @@
       </ul>
       <div class="mt-4"></div>
       <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="aptitude" role="tabpanel" aria-labelledby="Aptitude">
-          <form action="{% url 'result' %}" method="POST">
-            {% csrf_token %} 
+        <div class="tab-pane fade show active" id="aptitude" role="tabpanel" aria-labelledby="Aptitude"> 
             {% for question in questions_page %} 
                 {% if question.category == 'Aptitude' %}
                 <h5>Q-{{ question.question_text }}</h5>
@@ -58,37 +56,38 @@
                             <input type="radio" name="ans{{question.id}}" value="B" />{{option.option_text2}}<br />
                             <input type="radio" name="ans{{question.id}}" value="C" />{{option.option_text3}}<br />
                             <input type="radio" name="ans{{question.id}}" value="D" />{{option.option_text4}}<br />
+                            <button type="submit" id="{{question.id}}" name="submit{{question.id}}" class="submitAnswer btn btn-sm btn-outline-info form-control">
+                              Submit Answer
+                            </button>
                         {% endif %}
                     {% endfor %}
                     <br />
-                <button type="submit" class="btn btn-sm btn-outline-info form-control">
-                  Submit Answer
-                </button>
-                <hr>
+                    <hr>
+                    {% endif %} 
+            {% endfor %}
 
-            {% endif %} {% endfor %}
-          </form>
         </div>
         <div class="tab-pane fade" id="programming" role="tabpanel" aria-labelledby="Programming">
-          <form action="{% url 'result' %}" method="POST">
-            {% csrf_token %} 
-            {% for question in questions_page %} 
-                {% if question.category == 'Programming' %}
-                <h5>Q-{{ question.question_text }}</h5>
-                <br />
-                    {% for option in option_list %} {% if option.question.id == question.id %}
-                          <input type="radio" name="ans{{question.id}}" value="A" />{{option.option_text1}}<br />
-                          <input type="radio" name="ans{{question.id}}" value="B" />{{option.option_text2}}<br />
-                          <input type="radio" name="ans{{question.id}}" value="C" />{{option.option_text3}}<br />
-                          <input type="radio" name="ans{{question.id}}" value="D" />{{option.option_text4}}<br />
-                    {% endif %}{% endfor %}<br />
-                <button type="submit" class="btn btn-sm btn-outline-info form-control">
-                  Submit Answer
-                </button>
-                <hr>
-            {% endif %} {% endfor %}
-          </form>
-        </div>
+          {% for question in questions_page %} 
+          {% if question.category == 'Programming' %}
+          <h5>Q-{{ question.question_text }}</h5>
+          <br />
+              {% for option in option_list %} 
+                  {% if option.question.id == question.id %}
+                      <input type="radio" name="ans{{question.id}}" value="A" />{{option.option_text1}}<br />
+                      <input type="radio" name="ans{{question.id}}" value="B" />{{option.option_text2}}<br />
+                      <input type="radio" name="ans{{question.id}}" value="C" />{{option.option_text3}}<br />
+                      <input type="radio" name="ans{{question.id}}" value="D" />{{option.option_text4}}<br />
+                      <button type="submit" class="btn btn-sm btn-outline-info form-control">
+                        Submit Answer
+                      </button>
+                  {% endif %}
+              {% endfor %}
+              <br />
+              <hr>
+              {% endif %} 
+      {% endfor %}
+                </div>
       </div>
       {% else %}
       <h3>No Qustions</h3>
@@ -97,3 +96,49 @@
   </div>
 </div>
 {% endblock %}
+
+{% block script %}
+<script>
+  window.onload = initall;
+   
+  var saveAnsButton;
+  function initall(){
+        saveAnsButton = document.getElementById("save-ans");
+        saveAnsButton.onclick = saveans;
+
+        
+        
+  }
+  function saveans(){
+      var ans="Not Answered";
+      if ($("input:radio[name=name]").is(":checked")){
+        ans = $("input[name=name]:checked").val();
+      }
+      
+       
+      alert(ans);
+      var req = new XMLHttpRequest();
+      var url = '/saveans?ans=' + String(ans);
+      req.open("GET", url, true);
+      req.send();
+  }
+  
+  
+  </script>
+  <script>
+    setInterval(function(){
+          Examtimer();
+    },1000);
+    function Examtimer(){
+     var dt = new Date();
+  
+  
+    
+      $('#timer').text(dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds());
+      if(dt.getMinutes()=="37"){
+          window.location.href="/result/";
+      }
+    }
+    
+ </script>
+{% endblock script%}

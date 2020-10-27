@@ -1,10 +1,17 @@
 {% extends 'adminapp/main.html' %}
 {% load crispy_forms_tags %}
+{% block style %}
+  <style>
+    .container{
+        max-width: 43em;
+    }
+  </style>
+{% endblock style %}
 
 {% block content %}
-<div class="conteiner text-center align-middle my-5">
+<div class="container text-center align-middle my-5">
 
-    <form action="" method="post" class="uniForm">
+    <form action="" method="post" class="bootstrap4">
         {% csrf_token %}
         {{admin_form|crispy}}
         <!-- {% for form in admin_form %}
@@ -15,3 +22,4 @@
 </div>
   
 {% endblock  %}
+
