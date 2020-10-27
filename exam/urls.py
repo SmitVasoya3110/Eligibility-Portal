@@ -6,7 +6,7 @@ urlpatterns = [
     path('home/<int:exam_id>', views.home, name='home'),
     path('signup/', views.register, name="signup"),
     path('signin/',views.signin, name="signin"),
-    path('startexam/', views.exam, name="startexam"),
+    path('startexam/<int:id>', views.exam, name="startexam"),
     path('saveans/', views.saveans, name="saveans"),
     
     path('result/', views.result, name="result"),

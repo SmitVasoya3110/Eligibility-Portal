@@ -48,15 +48,15 @@
         <div class="tab-pane fade show active" id="aptitude" role="tabpanel" aria-labelledby="Aptitude"> 
             {% for question in questions_page %} 
                 {% if question.category == 'Aptitude' %}
-                <h5>Q-{{ question.question_text }}</h5>
+                <h5>Q {{exam_id}}-{{ question.question_text }}</h5>
                 <br />
                     {% for option in option_list %} 
                         {% if option.question.id == question.id %}
-                            <input type="radio" name="ans{{question.id}}" value="A" />{{option.option_text1}}<br />
+                            <input type="radio" name="ans{{question.id}}" class="jk" value="A" />{{option.option_text1}}<br />
                             <input type="radio" name="ans{{question.id}}" value="B" />{{option.option_text2}}<br />
                             <input type="radio" name="ans{{question.id}}" value="C" />{{option.option_text3}}<br />
                             <input type="radio" name="ans{{question.id}}" value="D" />{{option.option_text4}}<br />
-                            <button type="submit" id="{{question.id}}" name="submit{{question.id}}" class="submitAnswer btn btn-sm btn-outline-info form-control">
+                            <button data-id="{{question.id}}" name="submit{{question.id}}" class="submitAnswer btn btn-sm btn-outline-info form-control">
                               Submit Answer
                             </button>
                         {% endif %}
@@ -78,7 +78,7 @@
                       <input type="radio" name="ans{{question.id}}" value="B" />{{option.option_text2}}<br />
                       <input type="radio" name="ans{{question.id}}" value="C" />{{option.option_text3}}<br />
                       <input type="radio" name="ans{{question.id}}" value="D" />{{option.option_text4}}<br />
-                      <button type="submit" class="btn btn-sm btn-outline-info form-control">
+                      <button  data-id="{{question.id}}" name="submit{{question.id}}"  class="submitAnswer btn btn-sm btn-outline-info form-control">
                         Submit Answer
                       </button>
                   {% endif %}
@@ -89,6 +89,10 @@
       {% endfor %}
                 </div>
       </div>
+      <div class="text-center">
+
+        <a href="result/" class="btn btn-success">Submit Quiz</a>
+      </div>
       {% else %}
       <h3>No Qustions</h3>
       {% endif %}
@@ -98,34 +102,32 @@
 {% endblock %}
 
 {% block script %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script>
-  window.onload = initall;
    
   var saveAnsButton;
-  function initall(){
-        saveAnsButton = document.getElementById("save-ans");
-        saveAnsButton.onclick = saveans;
 
-        
-        
-  }
-  function saveans(){
-      var ans="Not Answered";
-      if ($("input:radio[name=name]").is(":checked")){
-        ans = $("input[name=name]:checked").val();
-      }
-      
-       
-      alert(ans);
+  $('.submitAnswer').on('click',function(){
+    var id =$(this).data('id');
+    var ans="Not Answered";
+    if ($("input:radio[name=ans"+id+"]").is(":checked")){
+      ans = $("input[name=ans"+id+"]:checked").val();
+    }
+    saveans(id,ans);
+  });
+   
+  function saveans(qid,ans){   
       var req = new XMLHttpRequest();
-      var url = '/saveans?ans=' + String(ans);
+      var url = '/saveans?qid=' + String(qid)+'&ans=' + String(ans) + "&eid=" + String('{{exam_id}}');
       req.open("GET", url, true);
       req.send();
   }
   
   
   </script>
-  <script>
+  <!-- <script>
     setInterval(function(){
           Examtimer();
     },1000);
@@ -140,5 +142,5 @@
       }
     }
     
- </script>
+ </script> -->
 {% endblock script%}

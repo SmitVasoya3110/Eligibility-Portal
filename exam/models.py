@@ -72,3 +72,11 @@ def student_profile(sender, created, instance, **kwargs):
                 roll_no = instance.roll_no
             )   
 post_save.connect(student_profile, sender=User)
+
+
+
+class Record(models.Model):
+    student_id = models.CharField(max_length=10)
+    exam_id = models.CharField(max_length=10)
+    question_id = models.CharField(max_length=10)
+    answer = models.CharField(max_length=1, default='N')

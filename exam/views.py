@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import College, Exam, Question, Option
+from .models import College, Exam, Question, Option, Record
 from django.core.paginator import Paginator
 from .forms import CreateUserForm, StudentForm, UserAuthentication, ExamForm
 from django.contrib.auth import authenticate, login, logout
@@ -81,12 +81,13 @@ def home(request, exam_id):
     answer_list = []
     global question_list
     question_list = list(question)
+    
     random.shuffle(question_list)
     return render(request, 'exam/home.html', {'exam_id':exam_id})
 
 @login_required(login_url='signin')
 @allowed_users(allowed_roles=['student'])
-def exam(request):
+def exam(request, id):
     global question_list
     exam_question = question_list[:]
     option_list = []
@@ -94,8 +95,18 @@ def exam(request):
         option = Option.objects.get(question=ques.id)
         option_list.append(option)
 
-    context = {'questions': exam_question, 'questions_page': exam_question, 'option_list': option_list}
+    context = {'questions': exam_question, 'questions_page': exam_question, 'option_list': option_list, 'exam_id':id}
     return render(request, 'exam/exam.html', context)
+
+@login_required
+def saveans(request):
+    
+    global answer_list
+    question_id = request.GET['qid']
+    answer = request.GET['ans']
+    exam_id = request.GET['eid']
+    print(question_id,answer,exam_id)
+    
 
 @login_required(login_url='signin/')
 @allowed_users(allowed_roles=['student'])
@@ -118,8 +129,3 @@ def result(request):
         
         return render(request, 'exam/result.html',{'score':score})
     return render(request, 'exam/result.html')
-
-@login_required
-def saveans(request):
-    global answer_list
-    print(request)
