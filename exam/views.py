@@ -81,7 +81,8 @@ def home(request, exam_id):
     answer_list = []
     global question_list
     question_list = list(question)
-    
+    for question in question_list:
+        Record.objects.create(student_id=request.user.id, exam_id=exam_id, question_id=question.id)
     random.shuffle(question_list)
     return render(request, 'exam/home.html', {'exam_id':exam_id})
 
@@ -100,12 +101,10 @@ def exam(request, id):
 
 @login_required
 def saveans(request):
-    
-    global answer_list
     question_id = request.GET['qid']
     answer = request.GET['ans']
     exam_id = request.GET['eid']
-    print(question_id,answer,exam_id)
+    Record.objects.get(question_id=question_id).update(answer=answer)
     
 
 @login_required(login_url='signin/')
