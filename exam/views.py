@@ -122,6 +122,4 @@ def result(request):
 @login_required
 def saveans(request):
     global answer_list
-    ans = request.GET['ans']
-    answer_list.append(ans)
-    print(answer_list)
+    print(request)

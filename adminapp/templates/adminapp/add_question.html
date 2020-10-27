@@ -1,5 +1,5 @@
 {% extends "adminapp/main.html" %}
-
+{% load crispy_forms_tags %}
 
 
 
@@ -10,12 +10,8 @@
 
                 <form action="" method="post" class="form-group text-center">
                     {% csrf_token %}
-                    {% for field in question_form.visible_fields %}
-                    <div class="form-group">
-                        {{ field.label_tag }}:
-                        {{ field }}
-                      </div>
-                    {% endfor %}
+                    {{question_form|crispy}}
+                    
                   
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

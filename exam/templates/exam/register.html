@@ -1,4 +1,5 @@
 {% extends 'exam/base.html' %}
+{% load crispy_forms_tags %}
 {% block title %}Student SignUp {% endblock %}
 {% block style %}
 <style>
@@ -83,45 +84,9 @@
 
                 <form method="POST" action="">
                     {% csrf_token %}
-    
-                    <div class="input-group mb-2">
-                        <!-- <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        </div> -->
-                        <h6 class="mr-2">Name</h6><span class="ml-4 field">{{ user_form.username }}</span>
-                    </div>
-                    <div class="input-group mb-2">
-                        <!-- <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
-                        </div> -->
-                        <h6 class="mr-2">Email</h6><span class="ml-4 field">{{ user_form.email }}</span>
-                    </div>
-                    <div class="input-group mb-2">
-                        <!-- <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div> -->
-                        <h6 class="mr-2">Password</h6><span class="ml-4 field">{{ user_form.password1 }}</span>
-                    </div>
-                    <div class="input-group mb-2">
-                        <!-- <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div> -->
-                        <h6 class="mr-2">Retype</h6><span class="ml-4 field">{{ user_form.password2 }}</span>
-                    </div>
-                    <div class="input-group mb-2">
-                        <!-- <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div> -->
-                        
-                        <h6>College</h6><span class="ml-4 clg">{{ student_form.college }}</span>
-                    </div>
-                    <div class="input-group mb-2">
-                        <!-- <div class="input-group-append">
-                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                        </div> -->
-                        <h6 class="mr-2">Roll No.</h6><span class="ml-4 field">{{ student_form.roll_no }}</span>
-                    </div>
-
+                        {{user_form|crispy}}
+                        {{ student_form|crispy }}
+                    
                        <div class="d-flex justify-content-center mt-3 login_container">
                          <input class="btn login_btn" type="submit" value="Register Account">
                        </div>
@@ -153,7 +118,7 @@
 
 //Query All input fields
 var form_fields = document.getElementsByTagName('input')
-form_fields[1].placeholder='Username..';
+form_fields[1].placeholder='Username..Must be unique';
 form_fields[2].placeholder='Email..';
 form_fields[3].placeholder='Enter password...';
 form_fields[4].placeholder='Re-enter Password...';

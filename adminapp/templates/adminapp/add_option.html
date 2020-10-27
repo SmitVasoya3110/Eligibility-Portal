@@ -1,5 +1,5 @@
 {% extends "adminapp/main.html" %}
-
+{% load crispy_forms_tags %}
 
 
 
@@ -10,12 +10,7 @@
 
                 <form action="{% url 'addoption' exam_id%}" method="post" class="form-group text-center">
                     {% csrf_token %}
-                    {% for field in option_form.visible_fields %}
-                    <div class="form-group">
-                        {{ field.label_tag }}:
-                        {{ field }}
-                      </div>
-                    {% endfor %}
+                    {{option_form|crispy}}
                   
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
