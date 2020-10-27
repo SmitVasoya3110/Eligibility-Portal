@@ -110,21 +110,10 @@ def saveans(request):
 @login_required(login_url='signin/')
 @allowed_users(allowed_roles=['student'])
 def result(request):
-    if request.method == "POST":
-        user_ans = request.POST
-        id_lst = []
-        answers = []
-        score = 0
-        for ans, value in user_ans.items():
-            if ans == 'csrfmiddlewaretoken':
-                continue
-            id_lst.append(ans[3:])
-            answers.append(value)
-        for i in range(len(id_lst)):
-            ans = Question.objects.get(id=id_lst[i])
-            ans = ans.answer
-            if ans == answers[i]:
-                score += 2
-        
-        return render(request, 'exam/result.html',{'score':score})
-    return render(request, 'exam/result.html')
+    score = 0
+    global question_list
+    for question in question_list:
+        record = Record.objects.get(question_id=question.id)
+        if record.answer == question.answer:
+            score += 2
+    return render(request, 'exam/result.html', {'score':score})
