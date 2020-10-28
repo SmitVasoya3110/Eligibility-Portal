@@ -26,7 +26,7 @@ def loginAdmin(request):
 @allowed_users(allowed_roles=['admin'])
 def logoutAdmin(request):
     logout(request)
-    return redirect('adminapp:home')
+    return redirect('/')
 
 @login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])

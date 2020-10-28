@@ -82,4 +82,4 @@ class Record(models.Model):
     answer = models.CharField(max_length=1, default='N')
 
     def __str__(self):
-        return self.question_id + " : "+self.answer + "Student_ID : " + self.student_id
+        return self.question_id + " : "+self.answer + "----Student_ID : " + self.student_id
