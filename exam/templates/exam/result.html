@@ -19,20 +19,20 @@
 
   
 {% if score > 60 %}
-<div class="jumbotron green">
+<div class="jumbotron green text-center">
     <h1 class="display-4">{{ request.user }}</h1>
     <p class="lead">You have successfully passed the exam with score of <b>{{ score }}</b></p>
     <hr class="my-4">
-    <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Log Out</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'exam:logout' %}" role="button">Log Out</a>
 </div>
     
 {% else %}
-<div class="jumbotron red">
+<div class="jumbotron red text-center">
     <h1 class="display-4">{{ request.user }}</h1>
     <p class="lead">You failed in this exam with score of <b>{{ score }}</b></p>
     <hr class="my-4">
     
-    <a class="btn btn-primary btn-lg" href="{% url 'logout' %}" role="button">Log Out</a>
+    <a class="btn btn-primary btn-lg" href="{% url 'exam:logout' %}" role="button">Log Out</a>
 </div>
 
 {% endif %}

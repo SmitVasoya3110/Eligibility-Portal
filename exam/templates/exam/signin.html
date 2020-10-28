@@ -68,6 +68,7 @@
 {% endblock %}
 
 {% block login %}
+<a href="{% url 'adminapp:loginadmin' %}">Admin</a>
 <div class="container h-100">
     <div class="d-flex justify-content-center h-100">
         <div class="user_card">
@@ -103,7 +104,7 @@
             {% endfor %}
             <div class="mt-4">
                 <div class="d-flex justify-content-center links">
-                    Don't have an account? <a href="{% url 'signup' %}" class="ml-2">Sign Up</a>
+                    Don't have an account? <a href="{% url 'exam:signup' %}" class="ml-2">Sign Up</a>
                 </div>
                 <div class="d-flex justify-content-center links">
                     Forgot Password? <a href="/reset_password" class="ml-2">Reset Password</a>

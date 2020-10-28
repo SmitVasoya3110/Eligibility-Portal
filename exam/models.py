@@ -80,3 +80,6 @@ class Record(models.Model):
     exam_id = models.CharField(max_length=10)
     question_id = models.CharField(max_length=10)
     answer = models.CharField(max_length=1, default='N')
+
+    def __str__(self):
+        return self.question_id + " : "+self.answer + "Student_ID : " + self.student_id

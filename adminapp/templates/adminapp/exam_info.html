@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="colleges col-md-10 my-4 offset-md-1 shadow-lg bg-white rounded align-middle"><h3 class="head text-center text-muted align-middle">Questions<span class="mx-3"><a href="{% url 'addquestion' exam_id %}" class="btn btn-success">Add question</a></span></h3></div>
+    <div class="colleges col-md-10 my-4 offset-md-1 shadow-lg bg-white rounded align-middle"><h3 class="head text-center text-muted align-middle">Questions<span class="mx-3"><a href="{% url 'adminapp:addquestion' exam_id %}" class="btn btn-success">Add question</a></span></h3></div>
     <table class="table table-striped">
         <thead>
             
@@ -33,7 +33,7 @@
                           <td class="text-center">{{option.option_text3}}</td>
                           <td class="text-center">{{option.option_text4}}</td>
                           <td class="text-center">{{question.answer}}</td>
-                          <td class="text-center"><a href="{% url 'edit-question' exam_id=exam_id q_id=question.id %}" class="btn btn-sm btn-outline-dark">Edit</a></td>
+                          <td class="text-center"><a href="{% url 'adminapp:edit-question' exam_id=exam_id q_id=question.id %}" class="btn btn-sm btn-outline-dark">Edit</a></td>
                               
                               
                           {% endif %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponsePermanentRedirect
 from .models import College, Exam, Question, Option, Record
 from django.core.paginator import Paginator
 from .forms import CreateUserForm, StudentForm, UserAuthentication, ExamForm
@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .decorators import allowed_users
 from django.contrib import messages
-
+from django.urls import reverse
 import random
 
 
@@ -32,7 +32,7 @@ def register(request):
                 user.roll_no = roll_no
                 user.save()
                 messages.success(request, f"{username} created successfully")
-                return redirect('signin')
+                return redirect(reverse('signin'))
             except Exception as e:
                 messages.warning(request, "Please Enter Valid/Unique(username, email)/Strong Data")
 
@@ -52,7 +52,7 @@ def signin(request):
             return redirect('/')
 
     context= {'auth_form':auth_form}
-    return render(request, 'exam/signin.html', context)
+    return render(request, template_name='exam/signin.html', context = context)
 
 
 @login_required
@@ -61,19 +61,19 @@ def signout(request):
     logout(request)
     return redirect('/')
 
-@login_required(login_url='signin')
+@login_required(login_url='exam:signin')
 @allowed_users(allowed_roles=['student'])
 def selectExam(request):
     exams = Exam.objects.filter(college = request.user.student.college.id)
     if request.method == "POST":
         exam = request.POST['exam']
         exam = Exam.objects.filter(exam_name=exam, college=request.user.student.college.id)
-        return redirect(home, exam_id=exam[0].id)
+        return redirect(reverse('exam:home',kwargs={'exam_id' : exam[0].id}))
     context = {'exams':exams}
     return render(request, 'exam/select_college.html', context)
 
 
-@login_required(login_url='signin')
+@login_required(login_url='exam:signin')
 @allowed_users(allowed_roles=['student'])
 def home(request, exam_id):
     question = Question.objects.filter(exam=exam_id)
@@ -86,7 +86,7 @@ def home(request, exam_id):
     random.shuffle(question_list)
     return render(request, 'exam/home.html', {'exam_id':exam_id})
 
-@login_required(login_url='signin')
+@login_required(login_url='exam:signin')
 @allowed_users(allowed_roles=['student'])
 def exam(request, id):
     global question_list
@@ -104,16 +104,21 @@ def saveans(request):
     question_id = request.GET['qid']
     answer = request.GET['ans']
     exam_id = request.GET['eid']
-    Record.objects.get(question_id=question_id).update(answer=answer)
+    Record.objects.filter(question_id=question_id).update(answer=answer)
     
 
-@login_required(login_url='signin/')
+@login_required(login_url='exam:signin')
 @allowed_users(allowed_roles=['student'])
 def result(request):
     score = 0
     global question_list
-    for question in question_list:
+    compare_list = question_list[:]
+    for question in compare_list:
+        print('qid:::::::',question.id)
         record = Record.objects.get(question_id=question.id)
+        print('ans_given=======',record.answer)
+        print('ans_original=======',question.answer)
+
         if record.answer == question.answer:
             score += 2
     return render(request, 'exam/result.html', {'score':score})

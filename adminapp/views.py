@@ -17,18 +17,18 @@ def loginAdmin(request):
         user = authenticate(request, username = request.POST['username'], password=request.POST['password'])
         if user:
             login(request, user)
-            return redirect(reverse('adminhome'))
+            return redirect(reverse('adminapp:adminhome'))
 
     context= {'auth_form':auth_form}
     return render(request, 'adminapp/admin_login.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def logoutAdmin(request):
     logout(request)
-    return redirect(reverse('adminhome'))
+    return redirect('adminapp:home')
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def home(request):
     college_list = College.objects.all()
@@ -44,15 +44,14 @@ def home(request):
     }
     return render(request, 'adminapp/dashboard.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def fetchStudents(request, id):
     students = Student.objects.filter(college=id).prefetch_related('college')
-    print(students)
     context = {'students':students}
     return render(request, 'adminapp/studentlist.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def allStudents(request):
     all_students = Student.objects.all()
@@ -60,7 +59,7 @@ def allStudents(request):
     context = {'all_students':all_students}
     return render(request, 'adminapp/all_students.html', context)  
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def exam(request):
     college_list = College.objects.all()
@@ -68,23 +67,21 @@ def exam(request):
     context = {'college_list':college_list}
     return render(request, 'adminapp/exam.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def fetchExams(request, id):
     exam_list = Exam.objects.filter(college=id).prefetch_related('college')
     context = {'exam_list':exam_list}
     return render(request, 'adminapp/college_exam.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def fetchAdmin(request):
     admin_users = User.objects.filter(is_staff=True)
-    print(admin_users)
-
     context = {'admin_users':admin_users}
     return render(request, 'adminapp/all_admin.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def addCollege(request):
     college_form = AddCollegeForm()
@@ -92,11 +89,11 @@ def addCollege(request):
         college_form = AddCollegeForm(request.POST)
         if college_form.is_valid():
             college_form.save()
-        return redirect(home)
+        return redirect(reverse('adminapp:adminhome'))
     context = {'form' : college_form}
     return render(request, 'adminapp/add_college.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def addExam(request):
     exam_form = AddExamForm()
@@ -104,11 +101,11 @@ def addExam(request):
         exam_form = AddExamForm(request.POST)
         if exam_form.is_valid():
             exam_form.save()
-            return redirect(exam)
+            return redirect(reverse('adminapp:exam'))
     context = {'exam_form' : exam_form}
     return render(request, 'adminapp/add_exam.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def addAdmin(request):
     admin_form = CreateUserForm(initial={'is_staff':True, "is_superuser":True})
@@ -118,28 +115,33 @@ def addAdmin(request):
             print(True)
             admin_form.save()
             print('ok')
-        return redirect(fetchAdmin)
+        return redirect(reverse('adminapp:adminuser'))
     context = {'admin_form':admin_form}
     return render(request, 'adminapp/create_admin.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def examInfo(request, id):
     question_list = Question.objects.filter(exam=id).prefetch_related('exam')
     option_list = []
     for ques in question_list:
-        options = Option.objects.filter(question = ques.id)
-        if len(options) > 1:
-            for option in options:
-                if option.question.id == ques.id:
-                    option_list.append(option)
-        else:
-            option = options[0]
+        try:
+            option = Option.objects.get(question = ques.id)
+            # print(type(options))
+            # if len(options) > 1:    
+            #     for option in options:
+            #         if option.question.id == ques.id:
+            #             option_list.append(option)
+            # else:
+            # option = options
             option_list.append(option)
+        except:
+            pass
+        
     context = {'question_list':question_list, 'option_list':option_list, 'exam_id':id}
     return render(request, 'adminapp/exam_info.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def addQuestion(request, id):
     exam = Exam.objects.get(id=id)
@@ -152,25 +154,24 @@ def addQuestion(request, id):
             question_form.save()
             question = Question.objects.filter(question_text=question).reverse()[0]
             option_form = OptionForm(initial={'question' : question})
-            print(option_form)
             context = {'option_form':option_form, 'exam_id':id}
-        return render(request, 'adminapp/add_option.html', context)
+            return render(request, 'adminapp/add_option.html', context)
 
     context = {'question_form':question_form}
     return render(request, 'adminapp/add_question.html', context)
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def addOption(request, id):
     if request.method == 'POST':
         option_form = OptionForm(request.POST)
         if option_form.is_valid():
             option_form.save()
-        return redirect('exam-info',id=id)
+        return redirect('adminapp:exam-info',id=id)
     else:
         return HttpResponse("It only can be seen after adding new questions")
 
-@login_required(login_url='loginadmin/')
+@login_required(login_url='adminapp:loginadmin/')
 @allowed_users(allowed_roles=['admin'])
 def editQuestion(request, exam_id, q_id):
     question = Question.objects.get(id=q_id)
@@ -185,6 +186,6 @@ def editQuestion(request, exam_id, q_id):
         if question_form.is_valid() and option_form.is_valid():
             question_form.save()
             option_form.save()
-        return redirect('exam-info', id=exam_id)
+        return redirect('adminapp:exam-info', id=exam_id)
     context = {'question_form':question_form, 'option_form':option_form}
     return render(request, 'adminapp/update_question.html', context)

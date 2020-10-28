@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+app_name = 'exam'
 urlpatterns = [
     path('', views.selectExam, name="select-exam"),
     path('home/<int:exam_id>', views.home, name='home'),

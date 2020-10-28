@@ -23,7 +23,7 @@
                     <td>{{exam.exam_name}}</td>
                     
                     <td>{{exam.college}}</td>
-                    <td><a href="{% url 'exam-info' exam.id%}" class="btn btn-sm btn-outline-dark">View</a></td>
+                    <td><a href="{% url 'adminapp:exam-info' exam.id%}" class="btn btn-sm btn-outline-dark">View</a></td>
                     
                 </tr>
             {% endfor %}

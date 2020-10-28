@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-5  shadow-lg bg-white rounded">
 
-                <form action="{% url 'addoption' exam_id%}" method="post" class="form-group text-center">
+                <form action="{% url 'adminapp:addoption' exam_id%}" method="post" class="form-group text-center">
                     {% csrf_token %}
                     {{option_form|crispy}}
                   
