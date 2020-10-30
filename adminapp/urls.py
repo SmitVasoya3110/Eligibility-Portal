@@ -21,4 +21,5 @@ urlpatterns = [
     path('addquestion/<int:id>', views.addQuestion, name="addquestion"),
     path('addoption/<int:id>', views.addOption, name="addoption"),
     path('edit-question/<int:exam_id>/<int:q_id>', views.editQuestion, name="edit-question"),
+    path('studentrecords/<int:exam_id>/<int:college_id>', views.studentrecord, name="studentrecords"),
 ]

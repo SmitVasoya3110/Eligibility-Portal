@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
-from exam.models import College, Student, Exam, Question, Option
+from exam.models import College, Student, Exam, Question, Option, Record
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -189,3 +189,18 @@ def editQuestion(request, exam_id, q_id):
         return redirect('adminapp:exam-info', id=exam_id)
     context = {'question_form':question_form, 'option_form':option_form}
     return render(request, 'adminapp/update_question.html', context)
+
+def studentrecord(request,exam_id, college_id):
+    students = Student.objects.filter(college=college_id)
+    exam = Exam.objects.get(id=exam_id)
+    score_list = []
+    for student in students:
+        score = 0
+        records = Record.objects.filter(exam_id=exam_id,student_id=student.user.id).exclude(answer='N')
+        for record in records:
+            question = Question.objects.get(id=record.question_id)
+            if question.answer == record.answer:
+                score += 2
+        score_list.append(score)
+    context={'students':students, 'score_list':score_list, 'exam':exam}
+    return render(request, 'adminapp/studentrecord.html', context)

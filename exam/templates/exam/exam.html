@@ -24,7 +24,8 @@
         College: {{request.user.student.college}}
       </li>
       <li class="nav-item mx-3 custom">Roll no.: {{request.user.student.roll_no}}</li>
-      <!-- <li class="nav-item mx-3 custom">Timer <span id="timer"></span></li> -->
+      
+      <li class="nav-item mx-3 custom">Timer :<span id="timer"></span></li>
     </ul>
   </div>
 </nav>
@@ -107,7 +108,31 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script>
-   
+  var myTimer;
+function clock() {
+    myTimer = setInterval(myClock, 1000);
+    var c = 3600; //Initially set to 1 hour
+
+
+    function myClock() {
+        --c
+        var seconds = c % 60; // Seconds that cannot be written in minutes
+        var secondsInMinutes = (c - seconds) / 60; // Gives the seconds that COULD be given in minutes
+        var minutes = secondsInMinutes % 60; // Minutes that cannot be written in hours
+        var hours = (secondsInMinutes - minutes) / 60;
+        // Now in hours, minutes and seconds, you have the time you need.
+        console.clear();
+        console.log(hours + ":" + minutes + ":" + seconds)
+        document.getElementById('timer').innerHTML = minutes + ":" + seconds
+        if (c == 0) {
+          clearInterval(myTimer);
+          window.location.href = 'http://127.0.0.1:8000/result/'
+        }
+    }
+}
+clock();
+</script>
+<script>
   var saveAnsButton;
 
   $('.submitAnswer').on('click',function(){
@@ -116,9 +141,13 @@
     var ans="Not Answered";
     if ($("input:radio[name=ans"+id+"]").is(":checked")){
       ans = $("input[name=ans"+id+"]:checked").val();
+      $(this).prop('disabled',true);
+      $(this).html('Answer Submited.....');
+
     }
+    document.getElementById('submitted').innerHTML = 'Answer Submited'
+    //var submitans = document.getElementById('')
     saveans(id,ans);
-    submitted.innerHTML('answer submitted')
   });
    
   function saveans(qid,ans){   
@@ -126,24 +155,9 @@
       var url = '/saveans?qid=' + String(qid)+'&ans=' + String(ans) + "&eid=" + String('{{exam_id}}');
       req.open("GET", url, true);
       req.send();
+
   }
   
   
   </script>
-  <!-- <script>
-    setInterval(function(){
-          Examtimer();
-    },1000);
-    function Examtimer(){
-     var dt = new Date();
-  
-  
-    
-      $('#timer').text(dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds());
-      if(dt.getMinutes()=="37"){
-          window.location.href="/result/";
-      }
-    }
-    
- </script> -->
 {% endblock script%}

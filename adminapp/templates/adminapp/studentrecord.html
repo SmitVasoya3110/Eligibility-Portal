@@ -1,0 +1,45 @@
+{% extends 'adminapp/main.html' %}
+
+{% block content %}
+<div class="container">
+   
+    <table class="table table-striped">
+        <thead>
+
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Exam</th>
+            <th scope="col">Score</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+            
+         
+            {% for student in students %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{student.user.username}}</td>
+                    <td>{{exam}}</td>
+                    {% for score in score_list %}
+                        
+                        {% if forloop.parentloop.counter == forloop.counter %}
+                        <td>{{score}}</td>   
+                        {% endif %}
+                            
+                      
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+                
+            
+
+                
+        </tbody>
+      </table>
+  </div>
+  {% for score in score_list %}
+  {{score}}<br>
+  {% endfor %}
+{% endblock content %}

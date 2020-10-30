@@ -32,7 +32,7 @@ def register(request):
                 user.roll_no = roll_no
                 user.save()
                 messages.success(request, f"{username} created successfully")
-                return redirect(reverse('signin'))
+                return redirect(reverse('exam:signin'))
             except Exception as e:
                 messages.warning(request, "Please Enter Valid/Unique(username, email)/Strong Data")
 
@@ -50,6 +50,8 @@ def signin(request):
         if user:
             login(request, user)
             return redirect('/')
+        else:
+            messages.warning(request, "Invalid Credentials")
 
     context= {'auth_form':auth_form}
     return render(request, template_name='exam/signin.html', context = context)
@@ -104,7 +106,7 @@ def saveans(request):
     question_id = request.GET['qid']
     answer = request.GET['ans']
     exam_id = request.GET['eid']
-    Record.objects.filter(question_id=question_id).update(answer=answer)
+    Record.objects.filter(question_id=question_id, exam_id=exam_id, student_id=request.user.id).update(answer=answer)
     
 
 @login_required(login_url='exam:signin')
@@ -114,10 +116,7 @@ def result(request):
     global question_list
     compare_list = question_list[:]
     for question in compare_list:
-        print('qid:::::::',question.id)
         record = Record.objects.get(question_id=question.id)
-        print('ans_given=======',record.answer)
-        print('ans_original=======',question.answer)
 
         if record.answer == question.answer:
             score += 2
