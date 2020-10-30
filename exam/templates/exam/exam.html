@@ -81,6 +81,7 @@
                       <button  data-id="{{question.id}}" name="submit{{question.id}}"  class="submitAnswer btn btn-sm btn-outline-info form-control">
                         Submit Answer
                       </button>
+                      <div id="submitted"></div>
                   {% endif %}
               {% endfor %}
               <br />
@@ -111,11 +112,13 @@
 
   $('.submitAnswer').on('click',function(){
     var id =$(this).data('id');
+    var submitted = document.getElementById('submitted');
     var ans="Not Answered";
     if ($("input:radio[name=ans"+id+"]").is(":checked")){
       ans = $("input[name=ans"+id+"]:checked").val();
     }
     saveans(id,ans);
+    submitted.innerHTML('answer submitted')
   });
    
   function saveans(qid,ans){   
