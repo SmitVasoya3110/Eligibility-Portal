@@ -29,10 +29,12 @@
 
     .form_container {
         margin-top: 20px;
+        width: 100%;
     }
 
     #form-title{
         color: #fff;
+
     }
     .login_btn {
         width: 100%;
@@ -46,29 +48,20 @@
     .login_container {
         padding: 0 2rem;
     }
-    .input-group-text {
-        background: #f7ba5b !important;
-        color: white !important;
-        border: 0 !important;
-        border-radius: 0.25rem 0 0 0.25rem !important;
-    }
-    .input_user,
-    .input_pass:focus {
-        box-shadow: none !important;
-        outline: 0px !important;
-    }
+
     #messages{
         background-color: grey;
         color: #fff;
         padding: 10px;
         margin-top: 10px;
     }
-    .clg{
-        width:100%;
-        height: calc(1.5em + .75rem + 2px);
+    #id_college{
+        height: 2.4em;
+    width: 100%;
+    border-radius: 4px;
     }
-    .field{
-        width:200%;
+    .form{
+        min-width: 100%;
     }
 
 </style>
@@ -82,11 +75,42 @@
             </div>
             <div class="d-flex justify-content-center form_container">
 
-                <form method="POST" action="">
+                <form method="POST" action="" class="form">
                     {% csrf_token %}
-                        {{user_form|crispy}}
-                        {{ student_form|crispy }}
-                    
+                    {{ user_form.username.label_tag }}*
+                    <div class="input-group mb-3">
+                        {{ user_form.username }}
+                        
+                    </div>
+                    <ul>
+                        <li>Use Uppercase, Lowercase, Special Characters and Numbers</li>
+                        <li>e.g. Smit_Patel_1998</li>
+                    </ul>
+                    {{ user_form.email.label_tag }}*
+                    <div class="input-group mb-2">
+                        {{ user_form.email }}
+                    </div>
+                    {{ user_form.password1.label_tag }}*
+                    <div class="input-group mb-2">
+                        {{ user_form.password1 }}
+                    </div>
+                    <ul>
+                        <li>Use Uppercase, Lowercase, Special Characters and Numbers</li>
+                        <li>e.g. SBV@portal1</li>
+                    </ul>
+                    {{ user_form.password2.label_tag }}*
+                    <div class="input-group mb-2">
+                        {{ user_form.password2 }}
+                    </div>
+                    {{ student_form.college.label_tag }}*
+                    <div class="input-group mb-2 field">
+                        {{ student_form.college }}
+                    </div>
+                    {{ student_form.roll_no.label_tag }}*
+                    <div class="input-group mb-2">
+                        {{ student_form.roll_no }}
+                    </div>
+
                        <div class="d-flex justify-content-center mt-3 login_container">
                          <input class="btn login_btn" type="submit" value="Register Account">
                        </div>
