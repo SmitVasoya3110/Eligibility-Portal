@@ -2,9 +2,20 @@ from exam.models import *
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 
+from django import template
+
+
+
+
+# register = template.Library()
+
+# @register.simple_tag(takes_context=True)
 
 
 class AddCollegeForm(ModelForm):
+    
+
+
     class Meta:
         model = College
         fields = '__all__'

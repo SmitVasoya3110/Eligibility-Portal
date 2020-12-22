@@ -3,9 +3,22 @@
 
 
 {% block content %}
+<div class="exists"></div>
 <form action="" method="post">
     {% csrf_token %}
     {{form|crispy}}
+    
+
    <button class="btn btn-info" type="submit">Add College</button>
 </form>
+
+
+{% block scripts %}
+    <script>
+        $.ajax({
+            
+        })
+    </script>
+{% endblock scripts %}
+    
 {% endblock %}
