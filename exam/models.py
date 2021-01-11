@@ -13,7 +13,7 @@ class College(models.Model):
 
 class Exam(models.Model):
     exam_name = models.CharField(max_length=100)
-    college = models.ForeignKey(College, on_delete=models.DO_NOTHING, related_name='exam')
+    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='exam')
 
     def __str__(self):
         return self.exam_name
@@ -50,7 +50,7 @@ class Option(models.Model):
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    college = models.ForeignKey(College, on_delete=models.DO_NOTHING, related_name='college')
+    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='college')
     roll_no = models.CharField(max_length=15)
 
 
