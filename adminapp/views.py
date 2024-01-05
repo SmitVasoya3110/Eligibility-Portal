@@ -14,7 +14,9 @@ from django.urls import reverse
 def loginAdmin(request):
     auth_form = AuthenticationForm()
     if request.method == "POST":
+        print(request.POST)
         user = authenticate(request, username = request.POST['username'], password=request.POST['password'])
+        print(user)
         if user:
             login(request, user)
             return redirect(reverse('adminapp:adminhome'))
